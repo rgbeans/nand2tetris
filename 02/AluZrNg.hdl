@@ -1,0 +1,22 @@
+CHIP AluZrNg {
+    IN  
+        in[16]; 
+
+    OUT 
+        out[16], // 16-bit output
+        zr, // 1 if (out == 0), 0 otherwise
+        ng; // 1 if (out < 0),  0 otherwise
+
+    PARTS:
+    
+    // our making of "zr"
+    Or8Way(in=in[0..7], out=or1to7);
+    Or8Way(in=in[8..15], out=or8to15);
+    Or(a=or1to7, b=or8to15, out=zrinv);
+    Not(in=zrinv, out=zr);
+    // redirecting in to out
+    Or16(a=in, b=in, out=out);
+    //making of ng
+    Or(a=in[15], b=in[15], out=ng);
+
+}
