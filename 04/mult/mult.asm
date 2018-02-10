@@ -7,15 +7,20 @@
 // (R0, R1, R2 refer to RAM[0], RAM[1], and RAM[2], respectively.)
 
 // Put your code here.
-    @R2
+  @R2
   M=0
 
+  //If R1 is zero, end program
+  @R1
+  D=M
+  @END
+  D;JEQ
   //If R0 is zero, end program
   @R0
   D=M
   @END
   D;JEQ
-
+  
 (ADDAGAIN)
   //Check if R1 is 0, meaning no more iterations
   @R1
