@@ -6,17 +6,30 @@ A=M
 M=D
 @SP
 M=M+1
-//pop Local 0
+//pop LCL 0
+@0
+D=A
 @SP
 M=M-1
 A=M
 D=M
-@300
+@foo
 M=D
-@SP
+@0
+D=A
+@LCL
+A=D+M
+D=A
+@bar
+M=D
+@foo
+D=M
+@bar
+A=M
+M=D
 //Label LOOP_START
 (BasicLoop_LOOP_START)
-//push Argument 0
+//push Arg 0
 @0
 D=A
 @ARG
@@ -28,7 +41,7 @@ A=M
 M=D
 @SP
 M=M+1
-//push Local 0
+//push LCL 0
 @0
 D=A
 @LCL
@@ -52,15 +65,28 @@ A=M
 M=D+M
 @SP
 M=M+1
-//pop Local 0
+//pop LCL 0
+@0
+D=A
 @SP
 M=M-1
 A=M
 D=M
-@300
+@foo
 M=D
-@SP
-//push Argument 0
+@0
+D=A
+@LCL
+A=D+M
+D=A
+@bar
+M=D
+@foo
+D=M
+@bar
+A=M
+M=D
+//push Arg 0
 @0
 D=A
 @ARG
@@ -93,15 +119,28 @@ A=M
 M=D+M
 @SP
 M=M+1
-//pop Argument 0
+//pop Arg 0
+@0
+D=A
 @SP
 M=M-1
 A=M
 D=M
-@400
+@foo
 M=D
-@SP
-//push Argument 0
+@0
+D=A
+@ARG
+A=D+M
+D=A
+@bar
+M=D
+@foo
+D=M
+@bar
+A=M
+M=D
+//push Arg 0
 @0
 D=A
 @ARG
@@ -120,7 +159,7 @@ A=M
 D=M
 @BasicLoop_LOOP_START
 D;JNE
-//push Local 0
+//push LCL 0
 @0
 D=A
 @LCL

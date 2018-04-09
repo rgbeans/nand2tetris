@@ -3,6 +3,16 @@ using System.IO;
 
 namespace VMTranslator
 {
+    public class FunctionContext
+    {
+        public string Name { get; }
+        public int ArgNum { get; }
+        public FunctionContext(string functionName,int numOfArgs)
+        {
+            Name = functionName;
+            ArgNum = numOfArgs;
+        }
+    }
     public class Context : IDisposable
     {
         public Context(string input) : this(input, new StringWriter())
@@ -15,7 +25,7 @@ namespace VMTranslator
             InputFilePath = input;
             Writer = output;
         }
-
+        public FunctionContext CurrentFunction { get; set; }
         public string InputFilePath { get; }
         public TextWriter Writer { get; }
 

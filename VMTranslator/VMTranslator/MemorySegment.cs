@@ -6,8 +6,8 @@
     {
         Static,
         This,
-        Local,
-        Argument,
+        LCL,
+        Arg,
         That,
         Constant,
         Pointer,

@@ -1,3 +1,10 @@
+(Sys_Sys.init_0)
+@SP
+@LCL
+@SP
+@SP
+@LCL
+@SP
 //push constant 6
 @6
 D=A

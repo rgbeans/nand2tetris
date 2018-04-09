@@ -98,14 +98,78 @@ namespace VMTranslator
                     break;
             }
         }
+        private static int retNum = 0;
+        public static void EmitReturn(Context ctx)
+        {
+            retNum++;
+            // put result 
+            ctx.Writer.WriteLine("@LCL");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("@endFrame");
+            ctx.Writer.WriteLine("M=D");
+            ctx.Writer.WriteLine("@5");
+            ctx.Writer.WriteLine("D=A");
+            ctx.Writer.WriteLine("@endFrame");
+            ctx.Writer.WriteLine("M=M-D");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("A=D");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("@retAddr");
+            ctx.Writer.WriteLine("M=D");
+            EmitPop(ctx,MemorySegment.Arg, 0);
+            ctx.Writer.WriteLine("@ARG");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("D=D+1");
+            ctx.Writer.WriteLine("@SP");
+            ctx.Writer.WriteLine("M=D");
+            ctx.Writer.WriteLine("@endFrame");
+            ctx.Writer.WriteLine("M=M+1");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("A=D");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("@LCL");
+            ctx.Writer.WriteLine("M=D");
+            ctx.Writer.WriteLine("@endFrame");
+            ctx.Writer.WriteLine("M=M+1");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("A=D");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("@ARG");
+            ctx.Writer.WriteLine("M=D");
+            ctx.Writer.WriteLine("@endFrame");
+            ctx.Writer.WriteLine("M=M+1");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("A=D");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("@THIS");
+            ctx.Writer.WriteLine("M=D");
+            ctx.Writer.WriteLine("@endFrame");
+            ctx.Writer.WriteLine("M=M+1");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("A=D");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("@THAT");
+            ctx.Writer.WriteLine("M=D");
+            ctx.Writer.WriteLine("@retAddr");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("A=D");
+            ctx.Writer.WriteLine("0;JMP");
+        }
+        private static void RestoreRegister(Context ctx, string register)
+        {
+            ctx.Writer.WriteLine($"@return_{retNum}");
+            ctx.Writer.WriteLine("M=M-1");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("A=D");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine($"@{register}");
+            ctx.Writer.WriteLine("M=D");
+        }
 
         private static string MakeNextUniqueSuffix<T>(T op) => 
             $"{op.ToString().ToUpper()}_{++emitCounter}";
 
-        private static void EmitBranchCommands(TextWriter writer, string uniqueSuffix, string label)
-        {
-            
-        }
+
         private static void EmitComparisonOpCodes(TextWriter writer, string uniqueSuffix, string jumpInstruction)
         {
             writer.WriteLine("@SP");
@@ -184,7 +248,7 @@ namespace VMTranslator
 
 
                     break;
-                case MemorySegment.Local:
+                case MemorySegment.LCL:
                     //writer.WriteLine($"//push local {index}");
                     //writer.WriteLine($"@{index}");
                     //writer.WriteLine("D=A");
@@ -200,7 +264,7 @@ namespace VMTranslator
                     PushToSegment(writer, segment, "@LCL", index);
 
                     break;
-                case MemorySegment.Argument:
+                case MemorySegment.Arg:
                     //writer.WriteLine($"//push argument {index}");
                     //writer.WriteLine($"@{index}");
                     //writer.WriteLine("D=A");
@@ -295,78 +359,12 @@ namespace VMTranslator
                     writer.WriteLine($"@{Path.GetFileNameWithoutExtension(ctx.InputFilePath)}.{index}");
                     writer.WriteLine("M=D");
                     writer.WriteLine("@SP");
-
                     break;
                 case MemorySegment.This:
-                    writer.WriteLine($"//pop {segment} {index}");
-                    writer.WriteLine($"@{index}");
-                    writer.WriteLine("D=A");
-                    writer.WriteLine("@SP");
-                    writer.WriteLine("M=M-1");
-                    writer.WriteLine("A=M");
-                    writer.WriteLine("D=M");
-                    writer.WriteLine("@baz");
-                    writer.WriteLine("M=D");
-                    writer.WriteLine($"@{index}");
-                    writer.WriteLine("D=A");
-                    writer.WriteLine("@THIS");
-                    writer.WriteLine("A=D+M");
-                    writer.WriteLine("D=A");
-                    writer.WriteLine("@qux");
-                    writer.WriteLine("M=D");
-                    writer.WriteLine("@baz");
-                    writer.WriteLine("D=M");
-                    writer.WriteLine("@qux");
-                    writer.WriteLine("A=M");
-                    writer.WriteLine("M=D");
-
-                    break;
-                case MemorySegment.Local:
-                    writer.WriteLine($"//pop {segment} {index}");
-                    writer.WriteLine("@SP");
-                    writer.WriteLine("M=M-1");
-                    writer.WriteLine("A=M");
-                    writer.WriteLine("D=M");
-                    writer.WriteLine($"@{300 + index}");
-                    writer.WriteLine("M=D");
-                    writer.WriteLine("@SP");
-
-                    break;
-                case MemorySegment.Argument:
-                    writer.WriteLine($"//pop {segment} {index}");
-                    writer.WriteLine("@SP");
-                    writer.WriteLine("M=M-1");
-                    writer.WriteLine("A=M");
-                    writer.WriteLine("D=M");
-                    writer.WriteLine($"@{400 + index}");
-                    writer.WriteLine("M=D");
-                    writer.WriteLine("@SP");
-
-                    break;
+                case MemorySegment.LCL:
+                case MemorySegment.Arg:
                 case MemorySegment.That:
-                    writer.WriteLine($"//pop {segment} {index}");
-                    writer.WriteLine($"@{index}");
-                    writer.WriteLine("D=A");
-                    writer.WriteLine("@SP");
-                    writer.WriteLine("M=M-1");
-                    writer.WriteLine("A=M");
-                    writer.WriteLine("D=M");
-                    writer.WriteLine("@foo");
-                    writer.WriteLine("M=D");
-                    writer.WriteLine($"@{index}");
-                    writer.WriteLine("D=A");
-                    writer.WriteLine("@THAT");
-                    writer.WriteLine("A=D+M");
-                    writer.WriteLine("D=A");
-                    writer.WriteLine("@bar");
-                    writer.WriteLine("M=D");
-                    writer.WriteLine("@foo");
-                    writer.WriteLine("D=M");
-                    writer.WriteLine("@bar");
-                    writer.WriteLine("A=M");
-                    writer.WriteLine("M=D");
-
-                    
+                    PopASegment(segment, index, writer);
                     break;
                 case MemorySegment.Constant:
                     writer.WriteLine($"//pop {segment} {index}");
@@ -406,6 +404,43 @@ namespace VMTranslator
             }
         }
 
+        private static void PopASegment(MemorySegment segment, int index, TextWriter writer)
+        {
+            var registerName = string.Empty;
+            switch (segment)
+            {
+                case MemorySegment.This:
+                case MemorySegment.LCL:
+                case MemorySegment.Arg:
+                case MemorySegment.That:
+                    registerName = segment.ToString().ToUpper();
+                    break;
+                default:
+                    throw new InvalidOperationException("Oink");
+            }
+            writer.WriteLine($"//pop {segment} {index}");
+            writer.WriteLine($"@{index}");
+            writer.WriteLine("D=A");
+            writer.WriteLine("@SP");
+            writer.WriteLine("M=M-1");
+            writer.WriteLine("A=M");
+            writer.WriteLine("D=M");
+            writer.WriteLine("@foo");
+            writer.WriteLine("M=D");
+            writer.WriteLine($"@{index}");
+            writer.WriteLine("D=A");
+            writer.WriteLine($"@{registerName}");
+            writer.WriteLine("A=D+M");
+            writer.WriteLine("D=A");
+            writer.WriteLine("@bar");
+            writer.WriteLine("M=D");
+            writer.WriteLine("@foo");
+            writer.WriteLine("D=M");
+            writer.WriteLine("@bar");
+            writer.WriteLine("A=M");
+            writer.WriteLine("M=D");
+        }
+
         public static void EmitGoTo(Context ctx, string label)
         {
             ctx.Writer.WriteLine($"//Goto {label}");
@@ -432,6 +467,42 @@ namespace VMTranslator
             var prefixedLabel = $"{Path.GetFileNameWithoutExtension(ctx.InputFilePath)}";
             ctx.Writer.WriteLine($"({prefixedLabel}_{label})");
         }
+        
+        public static void EmitFunction(Context ctx, string function, int args)
+        {
+            var prefixedLabel = $"{Path.GetFileNameWithoutExtension(ctx.InputFilePath)}";
+            ctx.Writer.WriteLine($"({prefixedLabel}_{function}_{args})");
+            ctx.Writer.WriteLine("@SP");
+            ctx.Writer.WriteLine("@LCL");
+            ctx.Writer.WriteLine("@SP");
+            for (int i = 0; i < args; i++)
+            {
+                ctx.Writer.WriteLine("@SP");
+                ctx.Writer.WriteLine("D=M");
+                ctx.Writer.WriteLine("A=D");
+                ctx.Writer.WriteLine("M=0");
+                ctx.Writer.WriteLine("@SP");
+                ctx.Writer.WriteLine("M=M+1");
+            }
+            ctx.Writer.WriteLine("@SP");
+            ctx.Writer.WriteLine("@LCL");
+            ctx.Writer.WriteLine("@SP");
+        }
+
+        private static int variable = 153;
+        
+        public static void EmitCall(Context ctx,string function,int args)
+        {
+            var prefixedLabel = $"{Path.GetFileNameWithoutExtension(ctx.InputFilePath)}";
+            ctx.Writer.WriteLine($"@{function}_{variable}");
+            ctx.Writer.WriteLine("D=A");
+            ctx.Writer.WriteLine("@SP");
+            ctx.Writer.WriteLine("M=M+1");
+            ctx.Writer.WriteLine("A=M");
+        }
+
+
+
     }
 
 }

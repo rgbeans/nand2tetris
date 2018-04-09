@@ -82,9 +82,15 @@ namespace VMTranslatorTests
                         OnCall = (command,n) =>
                             Console.WriteLine($">> call {command},{n}"),
                         OnFuncDef = (command, n) =>
-                            Console.WriteLine($">> function {command},{n}"),
+                            {
+                                ctx.CurrentFunction = new FunctionContext(command, n);
+                                AssemblyWriter.EmitFunction(ctx, command, n);
+                            },
                         OnReturn = () =>
-                            Console.WriteLine($">> return"),
+                            {
+                                AssemblyWriter.EmitReturn(ctx);
+                                ctx.CurrentFunction = null;
+                            },
 
                     };
                     Parser.Parse(File.ReadAllLines(path), callbacks);

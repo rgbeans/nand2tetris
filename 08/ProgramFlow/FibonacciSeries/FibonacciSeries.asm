@@ -1,4 +1,4 @@
-//push Argument 1
+//push Arg 1
 @1
 D=A
 @ARG
@@ -76,7 +76,7 @@ D=M
 @bar
 A=M
 M=D
-//push Argument 0
+//push Arg 0
 @0
 D=A
 @ARG
@@ -109,17 +109,30 @@ A=M
 M=D+M
 @SP
 M=M+1
-//pop Argument 0
+//pop Arg 0
+@0
+D=A
 @SP
 M=M-1
 A=M
 D=M
-@400
+@foo
 M=D
-@SP
+@0
+D=A
+@ARG
+A=D+M
+D=A
+@bar
+M=D
+@foo
+D=M
+@bar
+A=M
+M=D
 //Label MAIN_LOOP_START
 (FibonacciSeries_MAIN_LOOP_START)
-//push Argument 0
+//push Arg 0
 @0
 D=A
 @ARG
@@ -235,7 +248,7 @@ D=M
 @4
 M=D
 @SP
-//push Argument 0
+//push Arg 0
 @0
 D=A
 @ARG
@@ -268,14 +281,27 @@ A=M
 M=D+M
 @SP
 M=M+1
-//pop Argument 0
+//pop Arg 0
+@0
+D=A
 @SP
 M=M-1
 A=M
 D=M
-@400
+@foo
 M=D
-@SP
+@0
+D=A
+@ARG
+A=D+M
+D=A
+@bar
+M=D
+@foo
+D=M
+@bar
+A=M
+M=D
 //Goto MAIN_LOOP_START
 @FibonacciSeries_MAIN_LOOP_START
 0;JMP

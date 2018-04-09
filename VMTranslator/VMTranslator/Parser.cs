@@ -112,11 +112,11 @@ public class Parser
             case "static":
                 return MemorySegment.Static;
             case "argument":
-                return MemorySegment.Argument;
+                return MemorySegment.Arg;
             case "constant":
                 return MemorySegment.Constant;
             case "local":
-                return MemorySegment.Local;
+                return MemorySegment.LCL;
             case "pointer":
                 return MemorySegment.Pointer;
             case "temp":

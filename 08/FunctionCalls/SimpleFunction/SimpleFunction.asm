@@ -1,4 +1,23 @@
-//push Local 0
+(SimpleFunction_SimpleFunction.test_2)
+@SP
+@LCL
+@SP
+@SP
+D=M
+A=D
+M=0
+@SP
+M=M+1
+@SP
+D=M
+A=D
+M=0
+@SP
+M=M+1
+@SP
+@LCL
+@SP
+//push LCL 0
 @0
 D=A
 @LCL
@@ -10,7 +29,7 @@ A=M
 M=D
 @SP
 M=M+1
-//push Local 1
+//push LCL 1
 @1
 D=A
 @LCL
@@ -43,7 +62,7 @@ D=!D
 M=D
 @SP
 M=M+1
-//push Argument 0
+//push Arg 0
 @0
 D=A
 @ARG
@@ -67,7 +86,7 @@ A=M
 M=D+M
 @SP
 M=M+1
-//push Argument 1
+//push Arg 1
 @1
 D=A
 @ARG
@@ -92,3 +111,74 @@ A=M
 M=D+M
 @SP
 M=M+1
+@LCL
+D=M
+@endFrame
+M=D
+@5
+D=A
+@endFrame
+M=M-D
+D=M
+A=D
+D=M
+@retAddr
+M=D
+//pop Arg 0
+@0
+D=A
+@SP
+M=M-1
+A=M
+D=M
+@foo
+M=D
+@0
+D=A
+@ARG
+A=D+M
+D=A
+@bar
+M=D
+@foo
+D=M
+@bar
+A=M
+M=D
+@ARG
+D=M
+D=D+1
+@SP
+M=D
+@endFrame
+M=M+1
+D=M
+A=D
+D=M
+@LCL
+M=D
+@endFrame
+M=M+1
+D=M
+A=D
+D=M
+@ARG
+M=D
+@endFrame
+M=M+1
+D=M
+A=D
+D=M
+@THIS
+M=D
+@endFrame
+M=M+1
+D=M
+A=D
+D=M
+@THAT
+M=D
+@retAddr
+D=M
+A=D
+0;JMP

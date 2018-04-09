@@ -1,3 +1,10 @@
+(Sys_Sys.init_0)
+@SP
+@LCL
+@SP
+@SP
+@LCL
+@SP
 //push constant 4000
 @4000
 D=A
@@ -43,6 +50,43 @@ M=D
 //Goto LOOP
 @Sys_LOOP
 0;JMP
+(Sys_Sys.main_5)
+@SP
+@LCL
+@SP
+@SP
+D=M
+A=D
+M=0
+@SP
+M=M+1
+@SP
+D=M
+A=D
+M=0
+@SP
+M=M+1
+@SP
+D=M
+A=D
+M=0
+@SP
+M=M+1
+@SP
+D=M
+A=D
+M=0
+@SP
+M=M+1
+@SP
+D=M
+A=D
+M=0
+@SP
+M=M+1
+@SP
+@LCL
+@SP
 //push constant 4001
 @4001
 D=A
@@ -83,14 +127,27 @@ A=M
 M=D
 @SP
 M=M+1
-//pop Local 1
+//pop LCL 1
+@1
+D=A
 @SP
 M=M-1
 A=M
 D=M
-@301
+@foo
 M=D
-@SP
+@1
+D=A
+@LCL
+A=D+M
+D=A
+@bar
+M=D
+@foo
+D=M
+@bar
+A=M
+M=D
 //push constant 40
 @40
 D=A
@@ -99,14 +156,27 @@ A=M
 M=D
 @SP
 M=M+1
-//pop Local 2
+//pop LCL 2
+@2
+D=A
 @SP
 M=M-1
 A=M
 D=M
-@302
+@foo
 M=D
-@SP
+@2
+D=A
+@LCL
+A=D+M
+D=A
+@bar
+M=D
+@foo
+D=M
+@bar
+A=M
+M=D
 //push constant 6
 @6
 D=A
@@ -115,14 +185,27 @@ A=M
 M=D
 @SP
 M=M+1
-//pop Local 3
+//pop LCL 3
+@3
+D=A
 @SP
 M=M-1
 A=M
 D=M
-@303
+@foo
 M=D
-@SP
+@3
+D=A
+@LCL
+A=D+M
+D=A
+@bar
+M=D
+@foo
+D=M
+@bar
+A=M
+M=D
 //push constant 123
 @123
 D=A
@@ -139,7 +222,7 @@ D=M
 @5
 M=D
 @SP
-//push Local 0
+//push LCL 0
 @0
 D=A
 @LCL
@@ -151,7 +234,7 @@ A=M
 M=D
 @SP
 M=M+1
-//push Local 1
+//push LCL 1
 @1
 D=A
 @LCL
@@ -163,7 +246,7 @@ A=M
 M=D
 @SP
 M=M+1
-//push Local 2
+//push LCL 2
 @2
 D=A
 @LCL
@@ -175,7 +258,7 @@ A=M
 M=D
 @SP
 M=M+1
-//push Local 3
+//push LCL 3
 @3
 D=A
 @LCL
@@ -187,7 +270,7 @@ A=M
 M=D
 @SP
 M=M+1
-//push Local 4
+//push LCL 4
 @4
 D=A
 @LCL
@@ -247,6 +330,84 @@ A=M
 M=D+M
 @SP
 M=M+1
+@LCL
+D=M
+@endFrame
+M=D
+@5
+D=A
+@endFrame
+M=M-D
+D=M
+A=D
+D=M
+@retAddr
+M=D
+//pop Arg 0
+@0
+D=A
+@SP
+M=M-1
+A=M
+D=M
+@foo
+M=D
+@0
+D=A
+@ARG
+A=D+M
+D=A
+@bar
+M=D
+@foo
+D=M
+@bar
+A=M
+M=D
+@ARG
+D=M
+D=D+1
+@SP
+M=D
+@endFrame
+M=M+1
+D=M
+A=D
+D=M
+@LCL
+M=D
+@endFrame
+M=M+1
+D=M
+A=D
+D=M
+@ARG
+M=D
+@endFrame
+M=M+1
+D=M
+A=D
+D=M
+@THIS
+M=D
+@endFrame
+M=M+1
+D=M
+A=D
+D=M
+@THAT
+M=D
+@retAddr
+D=M
+A=D
+0;JMP
+(Sys_Sys.add12_0)
+@SP
+@LCL
+@SP
+@SP
+@LCL
+@SP
 //push constant 4002
 @4002
 D=A
@@ -279,7 +440,7 @@ D=M
 @4
 M=D
 @SP
-//push Argument 0
+//push Arg 0
 @0
 D=A
 @ARG
@@ -311,3 +472,74 @@ A=M
 M=D+M
 @SP
 M=M+1
+@LCL
+D=M
+@endFrame
+M=D
+@5
+D=A
+@endFrame
+M=M-D
+D=M
+A=D
+D=M
+@retAddr
+M=D
+//pop Arg 0
+@0
+D=A
+@SP
+M=M-1
+A=M
+D=M
+@foo
+M=D
+@0
+D=A
+@ARG
+A=D+M
+D=A
+@bar
+M=D
+@foo
+D=M
+@bar
+A=M
+M=D
+@ARG
+D=M
+D=D+1
+@SP
+M=D
+@endFrame
+M=M+1
+D=M
+A=D
+D=M
+@LCL
+M=D
+@endFrame
+M=M+1
+D=M
+A=D
+D=M
+@ARG
+M=D
+@endFrame
+M=M+1
+D=M
+A=D
+D=M
+@THIS
+M=D
+@endFrame
+M=M+1
+D=M
+A=D
+D=M
+@THAT
+M=D
+@retAddr
+D=M
+A=D
+0;JMP
