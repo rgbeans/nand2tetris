@@ -45,8 +45,9 @@ namespace VMTranslatorTests
         [Test]
         public void TestParser2()
         {
-        
-            const string root = @"C:\Users\Dean.Pavlovsky\Projects\nand2tetris\08\FunctionCalls\NestedCall";
+
+            //const string root = @"C:\Users\Dean.Pavlovsky\Projects\nand2tetris\08\FunctionCalls\NestedCall";
+            const string root = @"C:\Users\Dean.Pavlovsky\Projects\nand2tetris\08\ProgramFlow";
             var paths = Directory.EnumerateFiles(root, "*.vm", SearchOption.AllDirectories);
             //var paths = new[]
             //{
