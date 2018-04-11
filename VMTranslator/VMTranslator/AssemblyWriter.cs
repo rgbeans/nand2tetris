@@ -102,7 +102,7 @@ namespace VMTranslator
         public static void EmitReturn(Context ctx)
         {
             retNum++;
-            // put result 
+            ctx.Writer.WriteLine($"//return {ctx.CurrentFunction.Name}");
             ctx.Writer.WriteLine("@LCL");
             ctx.Writer.WriteLine("D=M");
             ctx.Writer.WriteLine("@endFrame");
@@ -150,9 +150,9 @@ namespace VMTranslator
             ctx.Writer.WriteLine("D=M");
             ctx.Writer.WriteLine("@THAT");
             ctx.Writer.WriteLine("M=D");
-            ctx.Writer.WriteLine("@retAddr");
-            ctx.Writer.WriteLine("D=M");
-            ctx.Writer.WriteLine("A=D");
+            ctx.Writer.WriteLine("// returning");
+            ctx.Writer.WriteLine($"@retAddr");
+            ctx.Writer.WriteLine($"A=M");
             ctx.Writer.WriteLine("0;JMP");
         }
         private static void RestoreRegister(Context ctx, string register)
@@ -468,14 +468,15 @@ namespace VMTranslator
             ctx.Writer.WriteLine($"({prefixedLabel}_{label})");
         }
         
-        public static void EmitFunction(Context ctx, string function, int args)
-        {
-            var prefixedLabel = $"{Path.GetFileNameWithoutExtension(ctx.InputFilePath)}";
-            ctx.Writer.WriteLine($"({prefixedLabel}_{function}_{args})");
+        public static void EmitFunction(Context ctx, string function, int localVars)
+        {   
+            ctx.Writer.WriteLine($"//FunctionDef for {function}");
+            var prefixedLabel = $"{Path.GetFileNameWithoutExtension(ctx.InputFilePath)}".ToUpper();
+            ctx.Writer.WriteLine($"({prefixedLabel.ToUpper()}_{function})");
             ctx.Writer.WriteLine("@SP");
             ctx.Writer.WriteLine("@LCL");
             ctx.Writer.WriteLine("@SP");
-            for (int i = 0; i < args; i++)
+            for (int i = 0; i < localVars; i++)
             {
                 ctx.Writer.WriteLine("@SP");
                 ctx.Writer.WriteLine("D=M");
@@ -488,17 +489,58 @@ namespace VMTranslator
             ctx.Writer.WriteLine("@LCL");
             ctx.Writer.WriteLine("@SP");
         }
-
-        private static int variable = 153;
         
         public static void EmitCall(Context ctx,string function,int args)
         {
-            var prefixedLabel = $"{Path.GetFileNameWithoutExtension(ctx.InputFilePath)}";
-            ctx.Writer.WriteLine($"@{function}_{variable}");
+            ctx.Writer.WriteLine($"//Call from within {ctx.CurrentFunction.Name} calling {function} {args}");
+            var prefixedLabel = $"{Path.GetFileNameWithoutExtension(ctx.InputFilePath)}".ToUpper();
+            ctx.Writer.WriteLine($"@RETURNADRESS_{ctx.CurrentFunction.Name}");
             ctx.Writer.WriteLine("D=A");
             ctx.Writer.WriteLine("@SP");
-            ctx.Writer.WriteLine("M=M+1");
             ctx.Writer.WriteLine("A=M");
+            ctx.Writer.WriteLine("M=D");
+            ctx.Writer.WriteLine("@SP");
+            ctx.Writer.WriteLine("M=M+1");
+            ctx.Writer.WriteLine("@LCL");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("@SP");
+            ctx.Writer.WriteLine("A=M");
+            ctx.Writer.WriteLine("M=D");
+            ctx.Writer.WriteLine("@SP");
+            ctx.Writer.WriteLine("M=M+1");
+            ctx.Writer.WriteLine("@ARG");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("@SP");
+            ctx.Writer.WriteLine("A=M");
+            ctx.Writer.WriteLine("M=D");
+            ctx.Writer.WriteLine("@SP");
+            ctx.Writer.WriteLine("M=M+1");
+            ctx.Writer.WriteLine("@THIS");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("@SP");
+            ctx.Writer.WriteLine("A=M");
+            ctx.Writer.WriteLine("M=D");
+            ctx.Writer.WriteLine("@SP");
+            ctx.Writer.WriteLine("M=M+1");
+            ctx.Writer.WriteLine("@THAT");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("@SP");
+            ctx.Writer.WriteLine("A=M");
+            ctx.Writer.WriteLine("M=D");
+            ctx.Writer.WriteLine("@SP");
+            ctx.Writer.WriteLine("M=M+1");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine($"@{5 + args}");
+            ctx.Writer.WriteLine("D=D-A");
+            ctx.Writer.WriteLine("@ARG");
+            ctx.Writer.WriteLine("M=D");
+            ctx.Writer.WriteLine("@SP");
+            ctx.Writer.WriteLine("D=M");
+            ctx.Writer.WriteLine("@LCL");
+            ctx.Writer.WriteLine("M=D");
+            ctx.Writer.WriteLine($"@{prefixedLabel.ToUpper()}_{function}");
+            ctx.Writer.WriteLine("0;JMP");
+            ctx.Writer.WriteLine($"(RETURNADRESS_{ctx.CurrentFunction.Name})");
         }
 
 

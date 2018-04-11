@@ -1,4 +1,4 @@
-(SimpleFunction_SimpleFunction.test_2)
+(SimpleFunction_SimpleFunction.test)
 @SP
 @LCL
 @SP

@@ -1,4 +1,5 @@
-(Sys_Sys.init_0)
+//FunctionDef for SYS.INIT
+(SYS_SYS.INIT)
 @SP
 @LCL
 @SP
@@ -37,6 +38,54 @@ D=M
 @4
 M=D
 @SP
+//Call from within SYS.INIT calling SYS.MAIN 0
+@RETURNADRESS_SYS.INIT
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+D=M
+@5
+D=D-A
+@ARG
+M=D
+@SP
+D=M
+@LCL
+M=D
+@SYS_SYS.MAIN
+0;JMP
+(RETURNADRESS_SYS.INIT)
 //pop Temp 1
 @SP
 M=M-1
@@ -50,7 +99,8 @@ M=D
 //Goto LOOP
 @Sys_LOOP
 0;JMP
-(Sys_Sys.main_5)
+//FunctionDef for SYS.MAIN
+(SYS_SYS.MAIN)
 @SP
 @LCL
 @SP
@@ -214,6 +264,54 @@ A=M
 M=D
 @SP
 M=M+1
+//Call from within SYS.MAIN calling SYS.ADD12 1
+@RETURNADRESS_SYS.MAIN
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+D=M
+@6
+D=D-A
+@ARG
+M=D
+@SP
+D=M
+@LCL
+M=D
+@SYS_SYS.ADD12
+0;JMP
+(RETURNADRESS_SYS.MAIN)
 //pop Temp 0
 @SP
 M=M-1
@@ -330,6 +428,7 @@ A=M
 M=D+M
 @SP
 M=M+1
+//return SYS.MAIN
 @LCL
 D=M
 @endFrame
@@ -397,11 +496,12 @@ A=D
 D=M
 @THAT
 M=D
+// returning
 @retAddr
-D=M
-A=D
+A=M
 0;JMP
-(Sys_Sys.add12_0)
+//FunctionDef for SYS.ADD12
+(SYS_SYS.ADD12)
 @SP
 @LCL
 @SP
@@ -472,6 +572,7 @@ A=M
 M=D+M
 @SP
 M=M+1
+//return SYS.ADD12
 @LCL
 D=M
 @endFrame
@@ -539,7 +640,7 @@ A=D
 D=M
 @THAT
 M=D
+// returning
 @retAddr
-D=M
-A=D
+A=M
 0;JMP

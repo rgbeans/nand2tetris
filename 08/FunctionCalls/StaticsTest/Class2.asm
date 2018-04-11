@@ -1,4 +1,4 @@
-(Class2_Class2.set_0)
+(Class2_Class2.set)
 @SP
 @LCL
 @SP
@@ -124,7 +124,7 @@ M=D
 D=M
 A=D
 0;JMP
-(Class2_Class2.get_0)
+(Class2_Class2.get)
 @SP
 @LCL
 @SP

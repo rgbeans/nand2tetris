@@ -46,7 +46,7 @@ namespace VMTranslatorTests
         public void TestParser2()
         {
         
-            const string root = @"C:\Users\Dean.Pavlovsky\Projects\nand2tetris\08";
+            const string root = @"C:\Users\Dean.Pavlovsky\Projects\nand2tetris\08\FunctionCalls\NestedCall";
             var paths = Directory.EnumerateFiles(root, "*.vm", SearchOption.AllDirectories);
             //var paths = new[]
             //{
@@ -59,8 +59,10 @@ namespace VMTranslatorTests
             foreach (var path in paths)
             {
                 Console.WriteLine($"processing {path}");
-
-                var outFile = Path.ChangeExtension(path, ".asm");
+                var dirName = Path.GetFileName(Path.GetDirectoryName(path));
+                var inputFile = Path.GetFileName(path);
+                var outFile = path.Replace(inputFile, $"{dirName}.asm");
+                //var outFile = Path.Combine(path, ".asm");
                 var sb = new StringBuilder();
                 using (var ctx = new Context(path, File.CreateText(outFile)/*new StringWriter(sb)*/))
                 {
@@ -68,23 +70,25 @@ namespace VMTranslatorTests
                     {
                         OnPop =
                             (segment, index) =>
-                                AssemblyWriter.EmitPop(ctx,segment,index),
+                                AssemblyWriter.EmitPop(ctx, segment, index),
                         OnPush = (segment, index) =>
-                            AssemblyWriter.EmitPush(ctx,segment,index),
+                            AssemblyWriter.EmitPush(ctx, segment, index),
                         OnArithmeticCommand = command =>
-                            AssemblyWriter.EmitOperator(ctx.Writer,command),
+                            AssemblyWriter.EmitOperator(ctx.Writer, command),
                         OnGoTo = label =>
-                            AssemblyWriter.EmitGoTo(ctx,label),
+                            AssemblyWriter.EmitGoTo(ctx, label),
                         OnIfGoTo = label =>
-                            AssemblyWriter.EmitIfGoTo(ctx,label),
+                            AssemblyWriter.EmitIfGoTo(ctx, label),
                         OnLabelDeclaration = label =>
                             AssemblyWriter.EmitLabel(ctx, label),
-                        OnCall = (command,n) =>
-                            Console.WriteLine($">> call {command},{n}"),
-                        OnFuncDef = (command, n) =>
+                        OnCall = (command, n) =>
+                            AssemblyWriter.EmitCall(ctx, command.ToUpper(), n),
+                            //Console.WriteLine($">> call {command},{n}"),
+                        OnFuncDef = (functionName, n) =>
                             {
-                                ctx.CurrentFunction = new FunctionContext(command, n);
-                                AssemblyWriter.EmitFunction(ctx, command, n);
+                                var name = functionName.ToUpper();
+                                ctx.CurrentFunction = new FunctionContext(name, n);
+                                AssemblyWriter.EmitFunction(ctx, name, n);
                             },
                         OnReturn = () =>
                             {

@@ -1,4 +1,4 @@
-(Class1_Class1.set_0)
+(Class1_Class1.set)
 @SP
 @LCL
 @SP
@@ -124,7 +124,7 @@ M=D
 D=M
 A=D
 0;JMP
-(Class1_Class1.get_0)
+(Class1_Class1.get)
 @SP
 @LCL
 @SP
