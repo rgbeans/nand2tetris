@@ -1,10 +1,57 @@
-(Main_Main.fibonacci)
+@256
+D=A
 @SP
+M=D
+//Call from within SYS.INIT calling SYS.INIT 0
+@RETURNADRESS_SYS.INIT.1
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
 @LCL
+D=M
 @SP
+A=M
+M=D
 @SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+D=M
+@5
+D=D-A
+@ARG
+M=D
+@SP
+D=M
 @LCL
-@SP
+M=D
+@SYS.INIT
+0;JMP
+(RETURNADRESS_SYS.INIT.1)
+//FunctionDef for MAIN.FIBONACCI
+(MAIN.FIBONACCI)
 //push Arg 0
 @0
 D=A
@@ -37,21 +84,21 @@ M=M-1
 A=M
 M=D+M
 D=M
-@SET_TRUE_RETURN_LT_27
+@SET_TRUE_RETURN_LT_1
 D;JLT
-(SET_FALSE_RETURN_LT_27)
+(SET_FALSE_RETURN_LT_1)
 @SP
 A=M
 M=0
-@SP_PP_LT_27
+@SP_PP_LT_1
 0;JMP
-(SET_TRUE_RETURN_LT_27)
+(SET_TRUE_RETURN_LT_1)
 @SP
 A=M
 M=-1
-@SP_PP_LT_27
+@SP_PP_LT_1
 0;JMP
-(SP_PP_LT_27)
+(SP_PP_LT_1)
 @SP
 M=M+1
 //IfGoto IF_TRUE
@@ -78,6 +125,7 @@ A=M
 M=D
 @SP
 M=M+1
+//return MAIN.FIBONACCI
 @LCL
 D=M
 @endFrame
@@ -145,9 +193,9 @@ A=D
 D=M
 @THAT
 M=D
+// returning
 @retAddr
-D=M
-A=D
+A=M
 0;JMP
 //Label IF_FALSE
 (Main_IF_FALSE)
@@ -184,9 +232,9 @@ A=M
 M=D+M
 @SP
 M=M+1
-//Call Main.fibonacci 1
-@returnAddress
-D=M
+//Call from within MAIN.FIBONACCI calling MAIN.FIBONACCI 1
+@RETURNADRESS_MAIN.FIBONACCI.2
+D=A
 @SP
 A=M
 M=D
@@ -229,9 +277,9 @@ M=D
 D=M
 @LCL
 M=D
-@Main_Main.fibonacci
+@MAIN.FIBONACCI
 0;JMP
-(returnAdress)
+(RETURNADRESS_MAIN.FIBONACCI.2)
 //push Arg 0
 @0
 D=A
@@ -265,9 +313,9 @@ A=M
 M=D+M
 @SP
 M=M+1
-//Call Main.fibonacci 1
-@returnAddress
-D=M
+//Call from within MAIN.FIBONACCI calling MAIN.FIBONACCI 1
+@RETURNADRESS_MAIN.FIBONACCI.3
+D=A
 @SP
 A=M
 M=D
@@ -310,9 +358,9 @@ M=D
 D=M
 @LCL
 M=D
-@Main_Main.fibonacci
+@MAIN.FIBONACCI
 0;JMP
-(returnAdress)
+(RETURNADRESS_MAIN.FIBONACCI.3)
 //Add
 @SP
 A=M
@@ -325,6 +373,7 @@ A=M
 M=D+M
 @SP
 M=M+1
+//return MAIN.FIBONACCI
 @LCL
 D=M
 @endFrame
@@ -392,7 +441,70 @@ A=D
 D=M
 @THAT
 M=D
+// returning
 @retAddr
+A=M
+0;JMP
+//FunctionDef for SYS.INIT
+(SYS.INIT)
+//push constant 4
+@4
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+//Call from within SYS.INIT calling MAIN.FIBONACCI 1
+@RETURNADRESS_SYS.INIT.4
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
 D=M
-A=D
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+D=M
+@6
+D=D-A
+@ARG
+M=D
+@SP
+D=M
+@LCL
+M=D
+@MAIN.FIBONACCI
+0;JMP
+(RETURNADRESS_SYS.INIT.4)
+//Label WHILE
+(Sys_WHILE)
+//Goto WHILE
+@Sys_WHILE
 0;JMP

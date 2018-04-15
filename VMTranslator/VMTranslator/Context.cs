@@ -15,18 +15,17 @@ namespace VMTranslator
     }
     public class Context : IDisposable
     {
-        public Context(string input) : this(input, new StringWriter())
+        public Context() : this(new StringWriter())
         {
         }
 
-        public Context(string input, TextWriter output)
+        public Context(TextWriter output)
         {
-            if (!File.Exists(input)) throw new FileNotFoundException($"file {input} was not found");
-            InputFilePath = input;
+            
             Writer = output;
         }
         public FunctionContext CurrentFunction { get; set; }
-        public string InputFilePath { get; }
+        public string InputFilePath { get; set; }
         public TextWriter Writer { get; }
 
         /// <inheritdoc />

@@ -1,45 +1,9 @@
-//FunctionDef for SYS.INIT
-(SYS_SYS.INIT)
-@SP
-@LCL
-@SP
-@SP
-@LCL
-@SP
-//push constant 4000
-@4000
+@256
 D=A
 @SP
-A=M
 M=D
-@SP
-M=M+1
-//pop Pointer 0
-@SP
-M=M-1
-A=M
-D=M
-@3
-M=D
-@SP
-//push constant 5000
-@5000
-D=A
-@SP
-A=M
-M=D
-@SP
-M=M+1
-//pop Pointer 1
-@SP
-M=M-1
-A=M
-D=M
-@4
-M=D
-@SP
-//Call from within SYS.INIT calling SYS.MAIN 0
-@RETURNADRESS_SYS.INIT
+//Call from within SYS.INIT calling SYS.INIT 0
+@RETURNADRESS_SYS.INIT.1
 D=A
 @SP
 A=M
@@ -83,9 +47,91 @@ M=D
 D=M
 @LCL
 M=D
-@SYS_SYS.MAIN
+@SYS.INIT
 0;JMP
-(RETURNADRESS_SYS.INIT)
+(RETURNADRESS_SYS.INIT.1)
+//FunctionDef for SYS.INIT
+(SYS.INIT)
+//push constant 4000
+@4000
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+//pop Pointer 0
+@SP
+M=M-1
+A=M
+D=M
+@3
+M=D
+@SP
+//push constant 5000
+@5000
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+//pop Pointer 1
+@SP
+M=M-1
+A=M
+D=M
+@4
+M=D
+@SP
+//Call from within SYS.INIT calling SYS.MAIN 0
+@RETURNADRESS_SYS.INIT.2
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@LCL
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@ARG
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THIS
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+@THAT
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+D=M
+@5
+D=D-A
+@ARG
+M=D
+@SP
+D=M
+@LCL
+M=D
+@SYS.MAIN
+0;JMP
+(RETURNADRESS_SYS.INIT.2)
 //pop Temp 1
 @SP
 M=M-1
@@ -100,10 +146,7 @@ M=D
 @Sys_LOOP
 0;JMP
 //FunctionDef for SYS.MAIN
-(SYS_SYS.MAIN)
-@SP
-@LCL
-@SP
+(SYS.MAIN)
 @SP
 D=M
 A=D
@@ -134,9 +177,6 @@ A=D
 M=0
 @SP
 M=M+1
-@SP
-@LCL
-@SP
 //push constant 4001
 @4001
 D=A
@@ -265,7 +305,7 @@ M=D
 @SP
 M=M+1
 //Call from within SYS.MAIN calling SYS.ADD12 1
-@RETURNADRESS_SYS.MAIN
+@RETURNADRESS_SYS.MAIN.3
 D=A
 @SP
 A=M
@@ -309,9 +349,9 @@ M=D
 D=M
 @LCL
 M=D
-@SYS_SYS.ADD12
+@SYS.ADD12
 0;JMP
-(RETURNADRESS_SYS.MAIN)
+(RETURNADRESS_SYS.MAIN.3)
 //pop Temp 0
 @SP
 M=M-1
@@ -501,13 +541,7 @@ M=D
 A=M
 0;JMP
 //FunctionDef for SYS.ADD12
-(SYS_SYS.ADD12)
-@SP
-@LCL
-@SP
-@SP
-@LCL
-@SP
+(SYS.ADD12)
 //push constant 4002
 @4002
 D=A

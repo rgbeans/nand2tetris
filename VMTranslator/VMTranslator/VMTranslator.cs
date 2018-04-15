@@ -20,20 +20,20 @@ namespace VMTranslator
                 throw new FileNotFoundException(msg);
             }
             var outFile = Path.ChangeExtension(path, ".asm");
-            using (var ctx = new Context(path, File.CreateText(outFile)))
-            {
-                var callbacks = new ParserCallBacks
-                {
-                    OnPop =
-                        (segment, index) =>
-                            AssemblyWriter.EmitPop(ctx, segment,
-                                index), 
-                    OnPush = (segment, index) => AssemblyWriter.EmitPush(ctx, segment, index),
-                    OnArithmeticCommand = command => AssemblyWriter.EmitOperator(ctx.Writer, command)
-                };
-                Parser.Parse(File.ReadAllLines(path), callbacks);
-                ctx.Writer.Flush();
-            }
+            //using (var ctx = new Context(path, File.CreateText(outFile)))
+            //{
+            //    var callbacks = new ParserCallBacks
+            //    {
+            //        OnPop =
+            //            (segment, index) =>
+            //                AssemblyWriter.EmitPop(ctx, segment,
+            //                    index), 
+            //        OnPush = (segment, index) => AssemblyWriter.EmitPush(ctx, segment, index),
+            //        OnArithmeticCommand = command => AssemblyWriter.EmitOperator(ctx.Writer, command)
+            //    };
+            //    Parser.Parse(File.ReadAllLines(path), callbacks);
+            //    ctx.Writer.Flush();
+            //}
         }
     }
 }

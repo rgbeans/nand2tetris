@@ -1,13 +1,9 @@
-(SimpleFunction_SimpleFunction.test)
+@256
+D=A
 @SP
-@LCL
-@SP
-@SP
-D=M
-A=D
-M=0
-@SP
-M=M+1
+M=D
+//FunctionDef for SIMPLEFUNCTION.TEST
+(SIMPLEFUNCTION.TEST)
 @SP
 D=M
 A=D
@@ -15,8 +11,11 @@ M=0
 @SP
 M=M+1
 @SP
-@LCL
+D=M
+A=D
+M=0
 @SP
+M=M+1
 //push LCL 0
 @0
 D=A
@@ -111,6 +110,7 @@ A=M
 M=D+M
 @SP
 M=M+1
+//return SIMPLEFUNCTION.TEST
 @LCL
 D=M
 @endFrame
@@ -178,7 +178,7 @@ A=D
 D=M
 @THAT
 M=D
+// returning
 @retAddr
-D=M
-A=D
+A=M
 0;JMP

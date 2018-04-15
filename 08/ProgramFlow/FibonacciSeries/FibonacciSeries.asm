@@ -1,3 +1,7 @@
+@256
+D=A
+@SP
+M=D
 //push Arg 1
 @1
 D=A

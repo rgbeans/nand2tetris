@@ -472,10 +472,7 @@ namespace VMTranslator
         {   
             ctx.Writer.WriteLine($"//FunctionDef for {function}");
             var prefixedLabel = $"{Path.GetFileNameWithoutExtension(ctx.InputFilePath)}".ToUpper();
-            ctx.Writer.WriteLine($"({prefixedLabel.ToUpper()}_{function})");
-            ctx.Writer.WriteLine("@SP");
-            ctx.Writer.WriteLine("@LCL");
-            ctx.Writer.WriteLine("@SP");
+            ctx.Writer.WriteLine($"({function})");
             for (int i = 0; i < localVars; i++)
             {
                 ctx.Writer.WriteLine("@SP");
@@ -485,16 +482,14 @@ namespace VMTranslator
                 ctx.Writer.WriteLine("@SP");
                 ctx.Writer.WriteLine("M=M+1");
             }
-            ctx.Writer.WriteLine("@SP");
-            ctx.Writer.WriteLine("@LCL");
-            ctx.Writer.WriteLine("@SP");
         }
-        
+        public static int i = 0;
         public static void EmitCall(Context ctx,string function,int args)
         {
+            i++;
             ctx.Writer.WriteLine($"//Call from within {ctx.CurrentFunction.Name} calling {function} {args}");
             var prefixedLabel = $"{Path.GetFileNameWithoutExtension(ctx.InputFilePath)}".ToUpper();
-            ctx.Writer.WriteLine($"@RETURNADRESS_{ctx.CurrentFunction.Name}");
+            ctx.Writer.WriteLine($"@RETURNADRESS_{ctx.CurrentFunction.Name}.{i}");
             ctx.Writer.WriteLine("D=A");
             ctx.Writer.WriteLine("@SP");
             ctx.Writer.WriteLine("A=M");
@@ -538,9 +533,9 @@ namespace VMTranslator
             ctx.Writer.WriteLine("D=M");
             ctx.Writer.WriteLine("@LCL");
             ctx.Writer.WriteLine("M=D");
-            ctx.Writer.WriteLine($"@{prefixedLabel.ToUpper()}_{function}");
+            ctx.Writer.WriteLine($"@{function}");
             ctx.Writer.WriteLine("0;JMP");
-            ctx.Writer.WriteLine($"(RETURNADRESS_{ctx.CurrentFunction.Name})");
+            ctx.Writer.WriteLine($"(RETURNADRESS_{ctx.CurrentFunction.Name}.{i})");
         }
 
 

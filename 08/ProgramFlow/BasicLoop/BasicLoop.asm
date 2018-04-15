@@ -1,3 +1,7 @@
+@256
+D=A
+@SP
+M=D
 //push constant 0
 @0
 D=A
