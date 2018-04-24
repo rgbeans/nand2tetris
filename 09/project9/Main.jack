@@ -1,0 +1,25 @@
+
+class Main {
+    function void main() {
+        var String switch;
+        var VicsekFractal vicsek;
+        var EscherFractal escher;
+        let escher = EscherFractal.new();
+        let vicsek = VicsekFractal.new();
+        
+        let switch = Keyboard.readInt("Type 1 for escher fractal or 2 for vicsek fractal");
+        do Screen.clearScreen();
+        if (switch = 1){
+            do escher.draw();
+        }
+        else{
+            do vicsek.draw();
+        }
+        
+        //do vicsek.draw();
+        //do escher.draw();
+        do vicsek.dispose();
+        do escher.dispose();
+        return;
+    }
+}

@@ -1,0 +1,181 @@
+class EscherFractal{
+    field int xp0, yp0, xp1, yp1, xp2, yp2, xp3, yp3;
+    constructor EscherFractal new(){
+        //constructs a new fractal in center of the screen
+        do Screen.setColor(true);
+        //top left corner
+        let xp0 = 256 - 64;
+        let yp0 = 128 - 64;
+        //top right
+        let xp1 = 384 - 64;
+        let yp1 = 128 - 64;
+        //bottom right
+        let xp2 = 384 - 64;
+        let yp2 = 256 - 64;
+        //bottom left
+        let xp3 = 256 - 64;
+        let yp3 = 256 - 64;
+        return this;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+      return;
+    }
+
+    method void update(){
+         
+        //making backups for points, bxp0 stands for Backup X Point 0 as xp0 stands for X Point 0
+        var int bxp0,bxp1,bxp2,bxp3,byp0,byp1,byp2,byp3;
+        var boolean isValid;
+        
+        while (true){
+            let bxp0 = xp0;
+            let byp0 = yp0;
+            let bxp1 = xp1;
+            let byp1 = yp1;
+            let bxp2 = xp2;
+            let byp2 = yp2;
+            let bxp3 = xp3;
+            let byp3 = yp3;
+            //do printPoint4(xp0,yp0,xp1,yp1,xp2,yp2,xp3,yp3);
+            let isValid = isValidDistance(bxp0,byp0,bxp1,byp1,8);
+            if(~(isValid)){
+                //do Output.printString("   Invalid");
+                return;
+            }
+            // do Output.printString("d1");
+            let xp0 = findCenter(bxp0,bxp1);
+            let yp0 = findCenter(byp0,byp1);
+            
+            let xp1 = findCenter(bxp1,bxp2);
+            let yp1 = findCenter(byp1,byp2);
+            
+            let xp2 = findCenter(bxp2,bxp3);
+            let yp2 = findCenter(byp2,byp3);
+
+            let xp3 = findCenter(bxp3,bxp0);
+            let yp3 = findCenter(byp3,byp0);
+            
+            //do printPoint4(xp0,yp0,xp1,yp1,xp2,yp2,xp3,yp3);
+            
+            do drawOne();
+            // let isValid = isValidDistance(bxp0,byp0,bxp1,byp1,8);
+            // if(~(isValid)){
+            //     do Output.printString("invalid - exiting ");
+            //     do Output.println();
+            //     return;
+            // }
+        }
+        // else{
+        //         do Output.printString("invalid");
+        // }
+        
+        return;
+    }
+    method void printPoint4(int x0 ,int y0,int x1 ,int y1,int x2 ,int y2,int x3 ,int y3){
+       do printPoint(x0,y0);
+       do printPoint(x1,y1);
+       do printPoint(x2,y2);
+       do printPoint(x3,y3);
+       do Output.println();
+       return;
+   }
+   method void printPoint(int x ,int y){
+       do Output.printString("(");
+       do Output.printInt(x);
+       do Output.printString(",");
+       
+       do Output.printInt(y);
+       do Output.printString(")");
+       
+       return;
+   }
+    method boolean isValidDistance(int xa, int ya, int xb, int yb, int minDis){
+        var int a, b, c;
+        var boolean value;
+
+        // do Output.printString("d2");
+        // do Output.println();
+        //  do Output.printInt(a);
+        //  do Output.println();
+        // do Output.printInt(ya);
+        // do Output.println();
+        //  do Output.printInt(b);
+        //  do Output.println();
+        // do Output.printInt(yb);
+        // do Output.println();
+        // do Output.printInt(minDis);
+        // do Output.println();
+        if (xa < xb){
+            let a = xb - xa;
+        }
+        else{
+            let a = xa - xb;
+        }
+        let a = a * a;
+        // do Output.printString("a^2 = ");
+        //  do Output.printInt(a);
+        //  do Output.println();
+        if (ya < yb){
+            let b = yb - ya;
+        }
+        else{
+            let b = ya - yb;
+        }
+        let b = b * b;
+        // do Output.printInt(b);
+        // do Output.println();
+        let c =  Math.sqrt(a + b);
+        let value = c > minDis;
+
+
+        // do Output.printString("a^2 = ");
+        // do Output.printInt(a);
+        // do Output.println();
+        // do Output.printString("b^2 = ");
+        // do Output.printInt(b);
+        // do Output.println();
+        //  do Output.printString("c = ");
+        // do Output.printInt(c);
+        // do Output.println();
+
+        // if(~(value)){
+        // do Output.printString("a^2 = ");
+        // do Output.printInt(a);
+        // do Output.println();
+        // do Output.printString("b^2 = ");
+        // do Output.printInt(b);
+        // do Output.println();
+        //  do Output.printString("c = ");
+        // do Output.printInt(c);
+        // do Output.println();
+        // }
+        return value; 
+    }
+
+    method int findCenter(int a, int b){
+        if (a < b){
+            return a + ((b - a) / 2);
+        }
+        if (b < a){
+            return b + ((a-b)/2);
+        }
+        return a;
+    }
+
+    method void draw(){
+        do drawOne();
+        do update();
+        //do drawOne();
+        return;
+    }
+
+    method void drawOne() {
+      do Screen.drawLine(xp0, yp0, xp1, yp1);
+      do Screen.drawLine(xp1, yp1, xp2, yp2);
+      do Screen.drawLine(xp2, yp2, xp3, yp3);
+      do Screen.drawLine(xp3, yp3, xp0, yp0);
+      return;
+   }
+}

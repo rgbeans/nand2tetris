@@ -1,0 +1,108 @@
+
+class VicsekFractal {
+        field int segmentSize, cellSize;
+   constructor VicsekFractal new() {
+      let cellSize = 16;
+      let segmentSize = 3 * cellSize;
+      do Screen.setColor(true);
+      return this;
+   }
+
+   method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   method void draw() {
+       var int y;
+       var boolean shift;
+       let y = 0;
+       let shift = false;
+       while(y < (255 - segmentSize)){
+           if(shift){
+            do drawLine(y,segmentSize);
+           } 
+           else{
+            do drawLine(y,0);
+           }
+            let y = y + segmentSize;
+            let shift = ~(shift);
+       }
+       return;
+   }
+   method void drawLine(int y,int startX) {
+       var int x;
+       let x = startX;
+       while(x < (512 - segmentSize)){
+          do drawOneSegment(x,y,16);
+          let x = x + (2*(3*16));  
+       }
+       return;
+   } 
+   method void drawOneSegment(int x, int y, int size) {
+       var int xmin, xmax, ymin, ymax,size;
+       let xmin = x;
+       if(xmin < 0){
+           let xmin = 0;
+       }
+       let xmax = xmin + size;
+       if(xmax > 511){
+           let xmax = 511;
+       }
+       let ymin = y;
+        if(ymin < 0){
+           let ymin = 0;
+       }
+       let ymax = ymin + size;
+        if(ymax > 255){
+           let ymax = 255;
+       }
+        if(xmin = xmax){
+            return;
+        }
+        if(ymin = ymax){
+            return;
+        }
+  
+        //two top boxes
+        do drawOne(xmin, ymin ,size );
+        do drawOne(xmin + (2* size),ymin,size);
+        // next is one in the middle
+        do drawOne(xmin + size,ymin + size ,size);
+        // bottom boxes
+        do drawOne(xmin,ymin + (2*size) ,size);
+        do drawOne(xmin + (2*size),ymin + (2*size)  ,size);
+        
+        return;
+   }
+    method void drawOne(int x, int y, int size) {
+       var int xmin, xmax, ymin, ymax;
+       let xmin = x;
+       if(xmin < 0){
+           let xmin = 0;
+       }
+       let xmax = xmin + size;
+       if(xmax > (511 - size)){
+           let xmax = 511 - size;
+       }
+       let ymin = y;
+        if(ymin < 0){
+           let ymin = 0;
+       }
+       let ymax = ymin + size;
+       if(ymax > (255 - size)){
+           let ymax = 255 - size;
+       }
+        if(xmin = xmax){
+            return;
+        }
+        if(ymin = ymax){
+            return;
+        }
+      do Screen.drawLine(xmin, ymin, xmax, ymin);
+      do Screen.drawLine(xmax, ymin, xmax, ymax);
+      do Screen.drawLine(xmax, ymax, xmin, ymax);
+      do Screen.drawLine(xmin, ymax, xmin, ymin);
+      return;
+   }
+}

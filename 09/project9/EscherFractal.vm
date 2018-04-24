@@ -1,0 +1,324 @@
+function EscherFractal.new 0
+push constant 8
+call Memory.alloc 1
+pop pointer 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push constant 256
+push constant 64
+sub
+pop this 0
+push constant 128
+push constant 64
+sub
+pop this 1
+push constant 384
+push constant 64
+sub
+pop this 2
+push constant 128
+push constant 64
+sub
+pop this 3
+push constant 384
+push constant 64
+sub
+pop this 4
+push constant 256
+push constant 64
+sub
+pop this 5
+push constant 256
+push constant 64
+sub
+pop this 6
+push constant 256
+push constant 64
+sub
+pop this 7
+push pointer 0
+return
+function EscherFractal.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function EscherFractal.update 9
+push argument 0
+pop pointer 0
+label WHILE_EXP0
+push constant 0
+not
+not
+if-goto WHILE_END0
+push this 0
+pop local 0
+push this 1
+pop local 4
+push this 2
+pop local 1
+push this 3
+pop local 5
+push this 4
+pop local 2
+push this 5
+pop local 6
+push this 6
+pop local 3
+push this 7
+pop local 7
+push pointer 0
+push local 0
+push local 4
+push local 1
+push local 5
+push constant 8
+call EscherFractal.isValidDistance 6
+pop local 8
+push local 8
+not
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+return
+label IF_FALSE0
+push pointer 0
+push local 0
+push local 1
+call EscherFractal.findCenter 3
+pop this 0
+push pointer 0
+push local 4
+push local 5
+call EscherFractal.findCenter 3
+pop this 1
+push pointer 0
+push local 1
+push local 2
+call EscherFractal.findCenter 3
+pop this 2
+push pointer 0
+push local 5
+push local 6
+call EscherFractal.findCenter 3
+pop this 3
+push pointer 0
+push local 2
+push local 3
+call EscherFractal.findCenter 3
+pop this 4
+push pointer 0
+push local 6
+push local 7
+call EscherFractal.findCenter 3
+pop this 5
+push pointer 0
+push local 3
+push local 0
+call EscherFractal.findCenter 3
+pop this 6
+push pointer 0
+push local 7
+push local 4
+call EscherFractal.findCenter 3
+pop this 7
+push pointer 0
+call EscherFractal.drawOne 1
+pop temp 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function EscherFractal.printPoint4 0
+push argument 0
+pop pointer 0
+push pointer 0
+push argument 1
+push argument 2
+call EscherFractal.printPoint 3
+pop temp 0
+push pointer 0
+push argument 3
+push argument 4
+call EscherFractal.printPoint 3
+pop temp 0
+push pointer 0
+push argument 5
+push argument 6
+call EscherFractal.printPoint 3
+pop temp 0
+push pointer 0
+push argument 7
+push argument 8
+call EscherFractal.printPoint 3
+pop temp 0
+call Output.println 0
+pop temp 0
+push constant 0
+return
+function EscherFractal.printPoint 0
+push argument 0
+pop pointer 0
+push constant 1
+call String.new 1
+push constant 40
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push argument 1
+call Output.printInt 1
+pop temp 0
+push constant 1
+call String.new 1
+push constant 44
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push argument 2
+call Output.printInt 1
+pop temp 0
+push constant 1
+call String.new 1
+push constant 41
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+push constant 0
+return
+function EscherFractal.isValidDistance 4
+push argument 0
+pop pointer 0
+push argument 1
+push argument 3
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 3
+push argument 1
+sub
+pop local 0
+goto IF_END0
+label IF_FALSE0
+push argument 1
+push argument 3
+sub
+pop local 0
+label IF_END0
+push local 0
+push local 0
+call Math.multiply 2
+pop local 0
+push argument 2
+push argument 4
+lt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push argument 4
+push argument 2
+sub
+pop local 1
+goto IF_END1
+label IF_FALSE1
+push argument 2
+push argument 4
+sub
+pop local 1
+label IF_END1
+push local 1
+push local 1
+call Math.multiply 2
+pop local 1
+push local 0
+push local 1
+add
+call Math.sqrt 1
+pop local 2
+push local 2
+push argument 5
+gt
+pop local 3
+push local 3
+return
+function EscherFractal.findCenter 0
+push argument 0
+pop pointer 0
+push argument 1
+push argument 2
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 1
+push argument 2
+push argument 1
+sub
+push constant 2
+call Math.divide 2
+add
+return
+label IF_FALSE0
+push argument 2
+push argument 1
+lt
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push argument 2
+push argument 1
+push argument 2
+sub
+push constant 2
+call Math.divide 2
+add
+return
+label IF_FALSE1
+push argument 1
+return
+function EscherFractal.draw 0
+push argument 0
+pop pointer 0
+push pointer 0
+call EscherFractal.drawOne 1
+pop temp 0
+push pointer 0
+call EscherFractal.update 1
+pop temp 0
+push constant 0
+return
+function EscherFractal.drawOne 0
+push argument 0
+pop pointer 0
+push this 0
+push this 1
+push this 2
+push this 3
+call Screen.drawLine 4
+pop temp 0
+push this 2
+push this 3
+push this 4
+push this 5
+call Screen.drawLine 4
+pop temp 0
+push this 4
+push this 5
+push this 6
+push this 7
+call Screen.drawLine 4
+pop temp 0
+push this 6
+push this 7
+push this 0
+push this 1
+call Screen.drawLine 4
+pop temp 0
+push constant 0
+return
